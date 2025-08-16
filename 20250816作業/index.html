@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>for 迴圈練習：九九乘法表</title>
+  <meta name="description" content="以 for 迴圈動態產生任意範圍的乘法表，含表單控制、夏日配色與列印樣式。">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 夏日天空漸層背景 + 內容置中 -->
+  <div class="stage">
+    <section class="sheet">
+      <h1>for 迴圈練習：九九乘法表</h1>
+
+      <!-- 表單控制列 -->
+      <form id="rangeForm" class="toolbar" autocomplete="off">
+        <button type="button" id="btn09" class="btn">0～9</button>
+        <button type="button" id="btn19" class="btn primary">1～9</button>
+
+        <div class="range">
+          <label>起：
+            <input type="number" id="start" step="1" value="1"
+                   aria-label="起始數字（可為負數）">
+          </label>
+          <label>迄：
+            <input type="number" id="end" step="1" value="9"
+                   aria-label="結束數字（可為負數）">
+          </label>
+          <button type="submit" id="btnApply" class="btn">套用</button>
+        </div>
+
+        <button type="button" id="btnPrint" class="btn ghost">列印 / 存 PDF</button>
+      </form>
+
+      <!-- 目前範圍提示 -->
+      <p id="rangeHint" class="hint">目前範圍：1 ～ 9</p>
+
+      <!-- 表格會被 JS 動態塞到這裡 -->
+      <div id="tableWrapper" class="table-wrap" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

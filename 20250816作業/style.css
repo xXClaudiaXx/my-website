@@ -1,0 +1,111 @@
+/* ========= 夏日主題變數 ========= */
+:root{
+  --sky-50:#E6F9FF;      /* 淺天藍 */
+  --sky-100:#CFF0FF;
+  --sea-300:#57C1FF;     /* 海水藍 */
+  --mint-400:#38D6C4;    /* 薄荷綠 */
+  --coral-500:#FF7A6E;   /* 珊瑚橘 */
+  --lemon-400:#FFD166;   /* 檸檬黃 */
+
+  --ink-900:#103247;
+  --ink-600:#3B5566;
+  --ink-400:#6C8592;
+  --line:#E5E7EB;
+
+  --card:#ffffffcc;      /* 玻璃卡片 */
+  --shadow:0 12px 30px rgba(16,50,71,.12);
+  --radius:18px;
+  --sheet-w:1000px;
+}
+
+/* ========= 背景與版面 ========= */
+html,body{margin:0;height:100%}
+body{
+  font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI","PingFang TC","Microsoft JhengHei",Arial,sans-serif;
+  color:var(--ink-900); line-height:1.65;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, var(--sky-100), transparent 60%),
+    linear-gradient(180deg, var(--sky-50), #fff 40%, #FFF7E6 100%); /* 夏日天空→沙灘 */
+}
+.stage{min-height:100%; display:grid; place-items:start center; padding:40px 16px}
+.sheet{
+  width:min(100%, var(--sheet-w));
+  background:var(--card);
+  backdrop-filter:saturate(160%) blur(6px);
+  border:1px solid var(--sky-100);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:24px 22px 26px;
+}
+
+/* ========= 標題 ========= */
+h1{
+  margin:0 0 12px; text-align:center; font-weight:800; letter-spacing:.4px;
+}
+
+/* ========= 工具列 / 表單 ========= */
+.toolbar{
+  display:flex; flex-wrap:wrap; gap:10px 12px;
+  align-items:center; justify-content:center;
+  margin:6px 0 14px;
+}
+.range{display:flex; gap:8px; align-items:center}
+.range label{font-size:14px; color:var(--ink-600)}
+.range input{
+  width:84px; padding:8px 10px; font-size:14px;
+  border:1px solid var(--line); border-radius:10px; background:#fff;
+  transition:border-color .2s, box-shadow .2s;
+}
+.range input:focus{outline:none; border-color:var(--sea-300); box-shadow:0 0 0 4px rgba(87,193,255,.18)}
+
+.btn{
+  border:1px solid var(--line);
+  background:#fff; color:#083A4E; font-weight:700;
+  padding:8px 12px; border-radius:12px; cursor:pointer;
+  transition:transform .05s, box-shadow .2s, background .2s;
+}
+.btn:hover{box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{
+  color:#083A4E;
+  background:linear-gradient(90deg, var(--lemon-400), var(--mint-400));
+  border-color:transparent;
+  box-shadow:0 10px 22px rgba(56,214,196,.22);
+}
+.btn.ghost{
+  background:#fff; color:#374151; border:1px solid var(--sky-100);
+}
+.hint{margin:0 0 10px; text-align:center; color:var(--ink-600); font-size:14px}
+
+/* ========= 表格區 ========= */
+.table-wrap{
+  overflow:auto;                   /* 大範圍可橫向滾動 */
+  max-width:100%;
+  background:#fff; border:1px solid var(--sky-100);
+  border-radius:14px; box-shadow:var(--shadow);
+}
+table{border-collapse:collapse; width:max-content; min-width:100%}
+td{
+  border:1px solid var(--line);
+  padding:8px 12px;
+  text-align:center;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+  font-size:15px;
+}
+tr:nth-child(odd) td{background:#FAFDFF}        /* 淺淺斑馬紋 */
+td:focus{outline:3px solid var(--sea-300)}      /* 鍵盤可聚焦 */
+
+@media (max-width:640px){
+  .sheet{padding:18px}
+  td{padding:6px 8px; font-size:14px}
+}
+
+/* ========= 列印 ========= */
+@media print{
+  body{background:#fff}
+  .stage{padding:0}
+  .sheet{box-shadow:none; border-radius:0; width:auto; padding:12mm; background:#fff; border:none}
+  .toolbar, .hint{display:none}
+  .table-wrap{box-shadow:none; border:none}
+}
