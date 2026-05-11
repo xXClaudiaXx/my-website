@@ -3,50 +3,85 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>猜數字小遊戲</title>
-  <meta name="description" content="1～9 猜數字：3×3 按鈕、太大/太小提示、答對顯示等量蘋果，支援深色模式。">
+  <title>每日當沖策略助手</title>
+  <meta name="description" content="9:00-9:03 當沖標的篩選、進出場計算、交易紀錄與收盤復盤。">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
-    <h1>猜數字小遊戲</h1>
-    <button id="themeToggle" class="btn ghost" aria-label="切換深色模式">切換模式🌞/🌙</button>
+    <h1>每日當沖策略助手</h1>
   </header>
 
   <main class="container">
     <section class="card">
-      <p class="intro">我心裡想了一個 <strong>1～9</strong> 的整數。點按下面的數字來猜！</p>
-
-      <!-- 提示訊息（動態更新） -->
-      <div id="hint" class="hint" role="status" aria-live="polite">請開始猜！</div>
-
-      <!-- 3×3 按鈕 -->
-      <div id="grid" class="grid-3x3" role="group" aria-label="數字按鈕">
-        <!-- 1~9 這九顆按鈕由 HTML 直接放，方便語義與鍵盤操作 -->
-        <button class="num" data-n="1">1</button>
-        <button class="num" data-n="2">2</button>
-        <button class="num" data-n="3">3</button>
-        <button class="num" data-n="4">4</button>
-        <button class="num" data-n="5">5</button>
-        <button class="num" data-n="6">6</button>
-        <button class="num" data-n="7">7</button>
-        <button class="num" data-n="8">8</button>
-        <button class="num" data-n="9">9</button>
+      <h2>一、09:00–09:03 自動快篩（免費資料源）</h2>
+      <p class="hint">先輸入候選股票代號（逗號分隔），按下「抓取並評分」後會用免費公開 API 計算快篩分數並選出前 3 檔。</p>
+      <div class="row">
+        <label>候選股票代號
+          <input id="symbolsInput" type="text" placeholder="例如 2330,2317,2454,2603" />
+        </label>
       </div>
-
-      <!-- 蘋果插圖（答對後顯示等量） -->
-      <div id="apples" class="apples" aria-hidden="true"></div>
-
-      <!-- 動作區 -->
       <div class="actions">
-        <button id="resetBtn" class="btn primary" type="button">重新開始</button>
+        <button id="scanBtn" class="btn primary">抓取並評分</button>
       </div>
+      <div id="scanStatus" class="result"></div>
+      <table>
+        <thead><tr><th>排名</th><th>代號</th><th>名稱</th><th>現價</th><th>成交量</th><th>漲跌幅%</th><th>快篩分數</th><th>建議買價</th><th>建議賣價</th></tr></thead>
+        <tbody id="scanTbody"></tbody>
+      </table>
+      <p class="hint">免費公開來源網址（完整）：<br>
+        1) Yahoo Finance Quote API（非官方）https://query1.finance.yahoo.com/v7/finance/quote?symbols=2330.TW,2317.TW<br>
+        2) Yahoo Finance Chart API（非官方）https://query1.finance.yahoo.com/v8/finance/chart/2330.TW?interval=1m&range=1d
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>二、交易計算器（多次買入/賣出）</h2>
+      <div class="row">
+        <label>每股買進成本（元）<input id="costPrice" type="number" min="0" step="0.01" placeholder="例如 52.3" /></label>
+        <label>買進張數（1 張 = 1000 股）<input id="lotSize" type="number" min="0" step="1" placeholder="例如 3" /></label>
+      </div>
+      <div class="actions">
+        <button id="calcRefBtn" class="btn primary">計算參考價</button>
+      </div>
+      <div id="referenceResult" class="result"></div>
+
+      <hr />
+      <h3>新增交易紀錄</h3>
+      <div class="row">
+        <label>動作
+          <select id="side">
+            <option value="buy">買入</option>
+            <option value="sell">賣出</option>
+          </select>
+        </label>
+        <label>價格（元）<input id="price" type="number" min="0" step="0.01" /></label>
+        <label>張數<input id="lots" type="number" min="0" step="1" /></label>
+      </div>
+      <div class="actions">
+        <button id="addTradeBtn" class="btn primary">加入紀錄</button>
+        <button id="resetBtn" class="btn ghost">清空今日</button>
+      </div>
+
+      <table>
+        <thead><tr><th>#</th><th>動作</th><th>價格</th><th>張數</th><th>金額</th></tr></thead>
+        <tbody id="tradeTbody"></tbody>
+      </table>
+      <div id="summary" class="result"></div>
+    </section>
+
+    <section class="card">
+      <h2>三、收盤自動存檔＋復盤報表</h2>
+      <div class="actions">
+        <button id="saveReviewBtn" class="btn primary">儲存今日復盤</button>
+      </div>
+      <div id="reviewStatus" class="result"></div>
+      <table>
+        <thead><tr><th>日期</th><th>總買入</th><th>總賣出</th><th>淨利</th><th>配對張數</th></tr></thead>
+        <tbody id="reviewTbody"></tbody>
+      </table>
     </section>
   </main>
-
-  <footer class="site-footer">
-    <small>Have fun! 🍀</small>
-  </footer>
 
   <script src="script.js"></script>
 </body>
